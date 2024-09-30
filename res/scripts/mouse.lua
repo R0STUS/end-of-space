@@ -12,10 +12,8 @@ function initClick()
         isHub = false
         isMenu = true
     elseif (isMZone(playButtonX, playButtonY + 55, (playButtonX + 100), (playButtonY + 105)) == true and (isMenu == true)) then
-        printNow("Exiting...", true)
         exitApp(0)
     elseif (isMZone(playButtonX, playButtonY + 110, (playButtonX + 100), (playButtonY + 160)) == true and (isPaused == true)) then
-        printNow("Exiting...", true)
         exitApp(0)
     elseif (isMZone(width * 0.2, height * 0.4, (width * 0.2 + 160), (height * 0.4 + 100)) and (isPaused == false and isMenu == false) and isHub == true) then
         printNow("Tech Page.", true)
@@ -24,11 +22,11 @@ function initClick()
     elseif (isMZone(5, 5, (105), (55)) and (isPaused == false and isMenu == false and isHub == false)) then
         printNow("Hub Page.", true)
         isHub = true
-    elseif (isMZone(width * 0.8, height * 0.4, (width * 0.8 + 160), (height * 0.4 + 100)) and (isPaused == false and isMenu == false)) then
+    elseif (isMZone(width * 0.7, height * 0.4, (width * 0.7 + 160), (height * 0.4 + 100)) and (isPaused == false and isMenu == false)) then
         printNow("Ship construction Page.", true)
         isCHub = true
         isHub = false
-    elseif (isMZone((xCenter - 2) - (width * 0.025), yCenter - (height * 0.0225), ((xCenter - 2) - (width * 0.025)) + width * 0.05, (yCenter - (height * 0.0225)) + height * 0.045) and (isPaused == false and isMenu == false and isTechHub == true)) then
+    elseif (isMZone((xCenter - 2) - (width * 0.05), yCenter - (height * 0.05), ((xCenter - 2) - (width * 0.05)) + width * 0.05, (yCenter - (height * 0.05)) + height * 0.045) and (isPaused == false and isMenu == false and isTechHub == true)) then
         if (money >= 25 and qlu == false and level < 4) then
             printNow("-$25 from money", true)
             qlu = true
@@ -44,7 +42,7 @@ function initClick()
         else
             printNow("Too many levels", true)
         end
-    elseif (isMZone((xCenter + 2) + (width * 0.025), yCenter - (height * 0.0225), ((xCenter + 2) + (width * 0.025)) + width * 0.05, (yCenter - (height * 0.0225)) + height * 0.045) and (isPaused == false and isMenu == false and isTechHub == true)) then
+    elseif (isMZone((xCenter + 2), yCenter - (height * 0.05), ((xCenter + 2)) + width * 0.05, (yCenter - (height * 0.05)) + height * 0.045) and (isPaused == false and isMenu == false and isTechHub == true)) then
         if (level > 1) then
             printNow("+$25 to money", true)
             level = level - 1

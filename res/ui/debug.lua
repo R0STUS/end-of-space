@@ -1,6 +1,7 @@
 function drawDebug()
     love.graphics.setColor(0.2, 0.2, 0.25, 0.75)
     love.graphics.rectangle("fill", 20, 20, 184, 50)
+    love.graphics.rectangle("fill", 20, height - 80, 184, -200)
     love.graphics.setColor(1, 1, 1)
     love.graphics.print("FPS: " .. fps, 25, 27)
     love.graphics.print("Delta: " .. delta, 25, 47)

@@ -1,10 +1,19 @@
 pages = require('res/ui/pages')
 terminal = require('res/ui/terminal')
 debug = require('res/ui/debug')
-mouse = require('res/init/mouse')
+mouse = require('res/scripts/mouse')
 
 terminalStr = ""
 lines = 0
+
+local buttons = { list = {} }
+function buttons:update()
+    for k, v in pairs(self.list) do
+        if isMZone(v.x, v.y, v.w + v.x, v.h + v.y) and love.mouse.isDown(1) then
+            v.callback()
+        end
+    end
+end
 
 function printNow(printing, isSys)
     print(printing)
@@ -30,7 +39,7 @@ function love.load()
     isCHub, isTechHub, isTerminal, isHub, released, isMenu, isPaused = false, false, false, false, false, true, false
     keyPessedNow = ""
     printNow("Loading background textures...", true)
-    hubBg, menuBg = love.graphics.newImage("res/textures/hubBg.png"), love.graphics.newImage("res/textures/menuBg.png")
+    tBg, cBg, hubBg, menuBg = love.graphics.newImage("res/textures/tBg.png"), love.graphics.newImage("res/textures/cBg.png"), love.graphics.newImage("res/textures/hubBg.png"), love.graphics.newImage("res/textures/menuBg.png")
     printNow("Loading button textures...", true)
     spaceShipsBtn, backBtn, techBtn = love.graphics.newImage("res/textures/btn/spaceShipsBtn.png"), love.graphics.newImage("res/textures/btn/backBtn.png"), love.graphics.newImage("res/textures/btn/techBtn.png")
     --printNow("Loading entity textures...", true)
@@ -50,29 +59,21 @@ function love.load()
     qlut = 0
     nextPrint = 0
     sum = 0
+    timescale = 1
 end
+
 
 function love.draw()
     love.graphics.setColor(1, 1, 1)
-    -- Textures
-    if (isMenu == true) then
-        love.graphics.draw(menuBg, 0, 0, 0, 1, 1)
-    end
-    if (isHub == true) then
-        love.graphics.draw(hubBg, 0, 0, 0, 1, 1)
-    end
     -- UI
-    if (isMenu == false and isHub == false) then -- backBtn
-        love.graphics.draw(backBtn, 5, 5, 0, 1, 1)
-    end
     if (isCHub == true) then -- Construction Hub
-        drawCHub(btnColR, btnColG, btnColB, cBg, width, height)
+        drawCHub()
     end
     if (isHub == true) then -- Main Hub
-        drawHub(btnColR, btnColG, btnColB, cBg, width, height, money)
+        drawHub()
     end
     if (isTechHub == true) then -- Research Hub
-        drawTHub(btnColR, btnColG, btnColB, cBg, width, height, money, xCenter, yCenter)
+        drawTHub()
     end
     if (isMenu == true) then -- Main Menu
         drawMenu()
@@ -80,7 +81,7 @@ function love.draw()
     if (isPaused == true) then -- Pause Menu
         drawPause()
     end
-    if (isTerminal == true) then
+    if (isTerminal == true) then -- Terminal
         drawTerminal()
     end
     -- Debug
@@ -89,17 +90,48 @@ function love.draw()
     end
 end
 
+function pause()
+    if (isPaused == false and isMenu == false) then
+        printNow("Paused", true)
+        isPaused = true
+    else
+        printNow("Unpaused", true)
+        isPaused = false
+    end
+end
+
+function debugSw()
+    if (debugMode == false) then
+        printNow("Debug mode true", true)
+        debugMode = true
+    else
+        printNow("Debug mode false", true)
+        debugMode = false
+    end
+end
+
+function termSw()
+    if (isTerminal == false) then
+        printNow("Terminal is opened", true)
+        isTerminal = true
+    else
+        printNow("Terminal is closed", true)
+        command = ""
+        isTerminal = false
+    end
+end
+
 function isMZone(x1, y1, x2, y2)
     return (mx >= x1 and my >= y1 and mx <= x2 and my <= y2)
 end
 
 function exitApp(num)
+    printNow("Exiting...", true)
     os.exit(num)
 end
 
 function runCommand(commandL)
     if (commandL == "exit") then
-        printNow("Exiting...", true)
         exitApp(0)
     elseif (commandL == "sw-cheats") then
         if (cheats == true) then
@@ -134,6 +166,39 @@ function runCommand(commandL)
         else
             printNow("Unknown command.", true)
         end
+    elseif (commandL == "sw-timescale-x2") then
+        if (cheats == true) then
+            if (timescale ~= 2) then
+                timescale = 2
+            else
+                timescale = 1
+            end
+            printNow("timescale = " .. timescale, true)
+        else
+            printNow("Unknown command.", true)
+        end
+    elseif (commandL == "sw-timescale-x4") then
+        if (cheats == true) then
+            if (timescale ~= 4) then
+                timescale = 4
+            else
+                timescale = 1
+            end
+            printNow("timescale = " .. timescale, true)
+        else
+            printNow("Unknown command.", true)
+        end
+    elseif (commandL == "sw-timescale-x0.5") then
+        if (cheats == true) then
+            if (timescale ~= 0.5) then
+                timescale = 0.5
+            else
+                timescale = 1
+            end
+            printNow("timescale = " .. timescale, true)
+        else
+            printNow("Unknown command.", true)
+        end
     elseif (commandL == "clear") then
         terminalStr = ""
         printNow("Terminal cleared", true)
@@ -144,14 +209,14 @@ end
 
 function love.update(dt)
     time = love.timer.getTime()
-    timer = timer + dt
     delta = dt
+    timer = timer + (delta * timescale)
     fps = love.timer.getFPS()
     mx, my = love.mouse.getPosition()
     planetSum = planets * level
     if (isMenu == false and isPaused == false) then
-        money = money + (planetSum * delta)
-        sum = sum + (planetSum * delta)
+        money = money + (planetSum * (delta * timescale))
+        sum = sum + (planetSum * (delta * timescale))
         if (nextPrint <= timer) then
             printNow("+$" .. math.floor(sum) .. " to money", true)
             sum = 0
@@ -159,7 +224,7 @@ function love.update(dt)
         end
     end
     if (isPaused == true) then
-        timer = timer - delta
+        timer = timer - (delta * timescale)
     end
     if (qlut < timer and qlut ~= 0) then
         qlut = 0
@@ -184,30 +249,11 @@ function love.keypressed(key)
     keyPessedNow = key
     if (released == true) then
         if (key == "escape") then
-            if (isPaused == false and isMenu == false) then
-                printNow("Paused", true)
-                isPaused = true
-            else
-                printNow("Unpaused", true)
-                isPaused = false
-            end
+            pause()
         elseif (key == "application") then
-            if (debugMode == false) then
-                printNow("Debug mode true", true)
-                debugMode = true
-            else
-                printNow("Debug mode false", true)
-                debugMode = false
-            end
+            debugSw()
         elseif (key == "`") then
-            if (isTerminal == false) then
-                printNow("Terminal is opened", true)
-                isTerminal = true
-            else
-                printNow("Terminal is closed", true)
-                command = ""
-                isTerminal = false
-            end
+            termSw()
         end
         if (isTerminal == true) then
             userInput(key)

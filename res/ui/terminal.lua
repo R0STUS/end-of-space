@@ -8,7 +8,7 @@ function drawTerminal()
 end
 
 function userInput(key)
-    if (key ~= "escape" and key ~= "backspace" and key ~= "application" and key ~= "kpenter" and key ~= "`" and key ~= "return" and key ~= "space" and key ~= "lgui" and key ~= "rgui" and key ~= "capslock" and key ~= "tab" and key ~= "lshift" and key ~= "rshift" and key ~= "lctrl" and key ~= "rctrl" and key ~= "lalt" and key ~= "ralt") then
+    if (key ~= "escape" and key ~= "backspace" and key ~= "application" and key ~= "left" and key ~= "right" and key ~= "down" and key ~= "up" and key ~= "kpenter" and key ~= "`" and key ~= "return" and key ~= "space" and key ~= "lgui" and key ~= "rgui" and key ~= "capslock" and key ~= "tab" and key ~= "lshift" and key ~= "rshift" and key ~= "lctrl" and key ~= "rctrl" and key ~= "lalt" and key ~= "ralt") then
         command = command .. key
     elseif (key == "backspace") then
         command = command:sub(1, -2)
