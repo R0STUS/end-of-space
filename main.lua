@@ -2,14 +2,16 @@ pages = require('res/ui/pages')
 terminal = require('res/ui/terminal')
 debug = require('res/ui/debug')
 mouse = require('res/scripts/mouse')
+btntype = require('res/scripts/buttonType')
+btns = require('res/scripts/buttons')
 
 terminalStr = ""
 lines = 0
 
-local buttons = { list = {} }
+buttons = { list = {} }
 function buttons:update()
     for k, v in pairs(self.list) do
-        if isMZone(v.x, v.y, v.w + v.x, v.h + v.y) and love.mouse.isDown(1) then
+        if isMZone(v.x, v.y, v.w, v.h) and love.mouse.isDown(1) then
             v.callback()
         end
     end
@@ -60,8 +62,9 @@ function love.load()
     nextPrint = 0
     sum = 0
     timescale = 1
+    printNow("Loading buttons...")
+    loadBtns()
 end
-
 
 function love.draw()
     love.graphics.setColor(1, 1, 1)
@@ -121,8 +124,63 @@ function termSw()
     end
 end
 
+function startG()
+    printNow("Starting game...", true)
+    isMenu = false
+    isHub = true
+end
+
+function gotoHub()
+    printNow("Hub page", true)
+    isHub = true
+end
+
+function gotoConstr()
+    printNow("Construction Hub page", true)
+    isHub = false
+    isCHub = true
+end
+
+function gotoTech()
+    printNow("Tech Hub page", true)
+    isHub = false
+    isTechHub = true
+end
+
+function gotoMainMenu()
+    printNow("Main Menu page", true)
+    isHub = false
+    isMenu = true
+end
+
+function tryUpgrd()
+    if (money >= 25 and qlu == false and level <= 4) then
+        printNow("-$25 from money", true)
+        money = money - 25
+        qlu = true
+        qlut = timer + 180
+    elseif (money < 25) then
+        printNow("Not enought money", true)
+    elseif (qlu == true) then
+        printNow("Too fast upgrade", true)
+    else
+        printNow("Too many levels", true)
+    end
+end
+
+function tryDwgrd()
+    if (level >= 2) then
+        printNow("-1 from level", true)
+        printNow("+$25 to money", true)
+        money = money + 25
+        level = level - 1
+    else
+        printNow("Not enought levels", true)
+    end
+end
+
 function isMZone(x1, y1, x2, y2)
-    return (mx >= x1 and my >= y1 and mx <= x2 and my <= y2)
+    return (mx >= x1 and my >= y1 and mx <= (x1 + x2) and my <= (y1 + y2))
 end
 
 function exitApp(num)
