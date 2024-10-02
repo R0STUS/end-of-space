@@ -30,5 +30,9 @@ function loadBtns()
     -- Exit
     buttons.list[#buttons.list + 1] = {x = playButtonX, y = playButtonY + 110, w = 100, h = 50, callback=function() initButton("exitBt") end}
     -- No Show
-    buttons.list[#buttons.list + 1] = {x = width * 0.9, y = (height * 0.125) - (height * 0.055), w = width * 0.075, h = height * 0.045, callback=function() initButton("noShowV") end}
+    buttons.list[#buttons.list + 1] = {x = xCenter - (width * 0.215), y = height * 0.75, w = width * 0.075, h = height * 0.045, callback=function() initButton("noShowV") end}
+    -- Remove Weapon
+    buttons.list[#buttons.list + 1] = {x = xCenter - (width * 0.11), y = height * 0.75, w = width * 0.075, h = height * 0.045, callback=function() initButton("RemoveV") end}
+    -- Add Weapon
+    buttons.list[#buttons.list + 1] = {x = xCenter, y = height * 0.75, w = width * 0.075, h = height * 0.045, callback=function() initButton("AddV") end}
 end
