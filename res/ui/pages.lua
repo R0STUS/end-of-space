@@ -39,6 +39,48 @@ function drawCHub()
     love.graphics.rectangle("fill", width * 0.95, height * 0.95, width * 0.045, height * 0.04)
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.print("$" .. math.floor(money), width * 0.955, height * 0.96)
+    wi = (width / 512) * 0.25
+    mi = wi * 512
+    mi = mi / 2
+    mix = mi + (width * 0.075)
+    yo = height * 0.075
+    love.graphics.setColor(1, 0, 0, 1)
+    love.graphics.rectangle("fill", xCenter - mix - (mix * 0.075), yCenter - mi - (mi * 0.075) - yo, (wi * 512) + (mix * 0.15), (wi * 512) + (mi * 0.15))
+    love.graphics.setColor(0, 0, 0, 1)
+    love.graphics.rectangle("fill", xCenter - mix, yCenter - mi - yo, wi * 512, wi * 512)
+    love.graphics.setColor(1, 1, 1, 1)
+    if (showWeaponType == 1) then
+        love.graphics.draw(bombImg, xCenter - mix, yCenter - mi - yo, 0, wi, wi)
+    elseif (showWeaponType == 2) then
+        love.graphics.draw(rocketsImg, xCenter - mix, yCenter - mi - yo, 0, wi, wi)
+    elseif (showWeaponType == 3) then
+        love.graphics.draw(machgunImg, xCenter - mix, yCenter - mi - yo, 0, wi, wi)
+    elseif (showWeaponType == 4) then
+        love.graphics.draw(forcefieldImg, xCenter - mix, yCenter - mi - yo, 0, wi, wi)
+    elseif (showWeaponType == 5) then
+        love.graphics.draw(lightjumpImg, xCenter - mix, yCenter - mi - yo, 0, wi, wi)
+    end
+    love.graphics.setColor(1, 0, 0, 1)
+    textCoordsX = xCenter - mix - (mix * 0.075)
+    if (showWeaponType == 0) then
+        love.graphics.print("(none)", textCoordsX, height * 0.675)
+        love.graphics.print("(none)", textCoordsX, height * 0.7)
+    elseif (showWeaponType == 1) then
+        love.graphics.print("Nuclear Bomb", textCoordsX, height * 0.675)
+        love.graphics.print("Just a big bomb. At the time of the game, nuclear bombs - are a classic.", textCoordsX, height * 0.7)
+    elseif (showWeaponType == 2) then
+        love.graphics.print("Rockets", textCoordsX, height * 0.675)
+        love.graphics.print("Shoots 4-8 homing rockets.", textCoordsX, height * 0.7)
+    elseif (showWeaponType == 3) then
+        love.graphics.print("Machine Gun", textCoordsX, height * 0.675)
+        love.graphics.print("This gun fires so fast.", textCoordsX, height * 0.7)
+    elseif (showWeaponType == 4) then
+        love.graphics.print("Force Field", textCoordsX, height * 0.675)
+        love.graphics.print("Makes a shield around the entire perimeter of your ship.", textCoordsX, height * 0.7)
+    elseif (showWeaponType == 5) then
+        love.graphics.print("Lightjump", textCoordsX, height * 0.675)
+        love.graphics.print("Upgrades your ship's max jumps around stars.", textCoordsX, height * 0.7)
+    end
 end
 
 function drawHub()

@@ -45,8 +45,8 @@ function love.load()
     tBg, cBg, hubBg, menuBg = love.graphics.newImage("res/textures/tBg.png"), love.graphics.newImage("res/textures/cBg.png"), love.graphics.newImage("res/textures/hubBg.png"), love.graphics.newImage("res/textures/menuBg.png")
     printNow("Loading button textures...", true)
     spaceShipsBtn, backBtn, techBtn = love.graphics.newImage("res/textures/btn/spaceShipsBtn.png"), love.graphics.newImage("res/textures/btn/backBtn.png"), love.graphics.newImage("res/textures/btn/techBtn.png")
-    --printNow("Loading entity textures...", true)
-    --enemyEnt = love.graphics.newImage("res/textures/ent/enemyEnt.png")
+    printNow("Loading entity textures...", true)
+    lightjumpImg, forcefieldImg, machgunImg, rocketsImg, bombImg = love.graphics.newImage("res/textures/images/lightjump.png"), love.graphics.newImage("res/textures/images/forcefield.png"), love.graphics.newImage("res/textures/images/machgun.png"), love.graphics.newImage("res/textures/images/rockets.png"), love.graphics.newImage("res/textures/images/bomb.png")
     playButtonX, playButtonY = xCenter - 50, yCenter - 25
     mx, my = 0
     btnColR, btnColG, btnColB = 0.2, 0.2, 0.25
@@ -156,11 +156,14 @@ function gotoMainMenu()
 end
 
 function tryUpgrd()
-    if (money >= 25 and qlu == false and level <= 4) then
+    if (money >= 25 and qlu == false and level < 4) then
         printNow("-$25 from money", true)
         money = money - 25
         qlu = true
         qlut = timer + 180
+        if (fastUp == true) then
+            qlut = timer + 1
+        end
     elseif (money < 25) then
         printNow("Not enought money", true)
     elseif (qlu == true) then
