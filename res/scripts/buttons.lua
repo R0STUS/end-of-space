@@ -29,4 +29,6 @@ function loadBtns()
     buttons.list[#buttons.list + 1] = {x = playButtonX, y = playButtonY + 55, w = 100, h = 50, callback=function() initButton("mainMenuBt") end}
     -- Exit
     buttons.list[#buttons.list + 1] = {x = playButtonX, y = playButtonY + 110, w = 100, h = 50, callback=function() initButton("exitBt") end}
+    -- No Show
+    buttons.list[#buttons.list + 1] = {x = width * 0.9, y = (height * 0.125) - (height * 0.055), w = width * 0.075, h = height * 0.045, callback=function() initButton("noShowV") end}
 end

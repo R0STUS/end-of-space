@@ -21,5 +21,17 @@ function initButton(typeb)
         gotoMainMenu()
     elseif (typeb == "exitBt" and isPaused == true) then
         exitApp(0)
+    elseif (typeb == "nclrV" and isCHub == true) then
+        setNclr()
+    elseif (typeb == "rcktsV" and isCHub == true) then
+        setRckts()
+    elseif (typeb == "machGunV" and isCHub == true) then
+        setMachGun()
+    elseif (typeb == "ffV" and isCHub == true) then
+        setField()
+    elseif (typeb == "ligjV" and isCHub == true) then
+        setLigJum()
+    elseif (typeb == "noShowV" and isCHub == true) then
+        noShow()
     end
 end

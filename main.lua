@@ -4,6 +4,7 @@ debug = require('res/ui/debug')
 mouse = require('res/scripts/mouse')
 btntype = require('res/scripts/buttonType')
 btns = require('res/scripts/buttons')
+elements = require('res/scripts/elements')
 
 terminalStr = ""
 lines = 0
@@ -18,14 +19,14 @@ function buttons:update()
 end
 
 function printNow(printing, isSys)
-    print(printing)
+    print(" [" .. os.date("%X") .. "] " .. printing)
     lines = lines + 1
     if (lines >= 23) then
         terminalStr = ""
         lines = 1
     end
     if (isSys == true) then
-        terminalStr = terminalStr .. printing .. "\n"
+        terminalStr = terminalStr .. " [" .. os.date("%X") .. "] " .. printing .. "\n"
     else
         terminalStr = terminalStr .. "user-input:  " .. printing .. "\n"
     end
@@ -62,7 +63,8 @@ function love.load()
     nextPrint = 0
     sum = 0
     timescale = 1
-    printNow("Loading buttons...")
+    showWeaponType = 0
+    printNow("Loading buttons...", true)
     loadBtns()
 end
 

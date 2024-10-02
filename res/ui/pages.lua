@@ -32,6 +32,10 @@ function drawCHub()
         end
     end
     love.graphics.setColor(btnColR, btnColG, btnColB, 1.0)
+    love.graphics.rectangle("fill", width * 0.9, height * 0.125 - (height * 0.055), width * 0.075, height * 0.045)
+    love.graphics.setColor(1, 1, 1)
+    love.graphics.print("No Show", width * 0.9 + (height * 0.005), height * 0.125 - (height * 0.055) + (height * 0.015))
+    love.graphics.setColor(btnColR, btnColG, btnColB, 1.0)
     love.graphics.rectangle("fill", width * 0.95, height * 0.95, width * 0.045, height * 0.04)
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.print("$" .. math.floor(money), width * 0.955, height * 0.96)
