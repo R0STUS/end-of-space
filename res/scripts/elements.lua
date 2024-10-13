@@ -21,3 +21,9 @@ end
 function setLigJum()
     showWeaponType = 5
 end
+
+function removeElementConstr(typer)
+end
+
+function addElementConstr(typer)
+end
